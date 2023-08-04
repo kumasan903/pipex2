@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 00:50:35 by skawanis          #+#    #+#             */
-/*   Updated: 2023/08/04 18:06:57 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:19:09 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ char	*search_binary(char **path, size_t path_len, char *cmd_name)
 		i++;
 	}
 	free(path);
-	return ((char *)cmd_path_list);
+	return (cmd_name);
 }
