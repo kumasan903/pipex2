@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 21:25:46 by skawanis          #+#    #+#             */
-/*   Updated: 2023/08/04 01:32:57 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/08/04 18:06:43 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ void	execute_cmd(char *cmd, char **envp, int in_fd, int out_fd)
 	new_cmd = ft_split(cmd, ' ');
 	path = get_path(envp, &path_len);
 	binary_path = search_binary(path, path_len, new_cmd[0]);
-	printf("dupin -> %d\n", dup2(in_fd, 0));
-	printf("dupout -> %d\n", dup2(out_fd, 1));
+	dup2(in_fd, 0);
+	close(in_fd);
+	dup2(out_fd, 1);
+	close(out_fd);
 	pid = fork();
 	if (pid > 0)
 	{
-		puts("hello from parente prosess and waiting...");
 		wait(NULL);
-		puts("hello from parent prosess");
 	}
 	if (pid == 0)
 	{
@@ -50,7 +50,6 @@ int	main(int argc, char **argv, char **envp)
 	if (pipe(my_pipe))
 		exit (1);
 	handle_arguments(argc, argv, &infile_fd, &outfile_fd);
-	printf("infd:%d\noutfd:%d\n", infile_fd, outfile_fd);
 	execute_cmd(argv[2], envp, infile_fd, my_pipe[PIPE_WRITE]);
 	execute_cmd(argv[3], envp, my_pipe[PIPE_READ], outfile_fd);
 }
