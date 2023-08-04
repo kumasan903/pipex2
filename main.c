@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 21:25:46 by skawanis          #+#    #+#             */
-/*   Updated: 2023/08/04 18:06:43 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:34:56 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,11 @@ void	execute_cmd(char *cmd, char **envp, int in_fd, int out_fd)
 	char	**new_cmd;
 	char	**path;
 	char	*binary_path;
-	size_t	path_len;
 	pid_t	pid;
 
 	new_cmd = ft_split(cmd, ' ');
-	path = get_path(envp, &path_len);
-	binary_path = search_binary(path, path_len, new_cmd[0]);
+	path = get_path(envp);
+	binary_path = search_binary(path, new_cmd[0]);
 	dup2(in_fd, 0);
 	close(in_fd);
 	dup2(out_fd, 1);
@@ -33,6 +32,8 @@ void	execute_cmd(char *cmd, char **envp, int in_fd, int out_fd)
 	if (pid > 0)
 	{
 		wait(NULL);
+		free(binary_path);
+		free(new_cmd);
 	}
 	if (pid == 0)
 	{
