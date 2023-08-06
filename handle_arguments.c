@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 22:07:05 by skawanis          #+#    #+#             */
-/*   Updated: 2023/08/04 19:36:32 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/08/06 22:12:47 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	handle_arguments(int argc, char **argv, int *in_fd, int *out_fd)
 	*in_fd = open(argv[1], O_RDONLY);
 	if (*in_fd < 0)
 	{
-		perror("can't open infile");
-		exit (1);
+		ft_putstr_fd("pipex: no such file or directory :", 2);
+		ft_putendl_fd(argv[1], 2);
 	}
-	*out_fd = open(argv[4], O_WRONLY);
+	*out_fd = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (*out_fd < 0)
 	{
 		perror("can't open outfile");

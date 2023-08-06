@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 21:25:46 by skawanis          #+#    #+#             */
-/*   Updated: 2023/08/06 16:32:57 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/08/06 21:54:13 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ int	main(int argc, char **argv, char **envp)
 	if (pipe(my_pipe))
 		exit (1);
 	handle_arguments(argc, argv, &infile_fd, &outfile_fd);
-	execute_cmd(argv[2], envp, infile_fd, my_pipe[PIPE_WRITE]);
+	if (infile_fd >= 0)
+		execute_cmd(argv[2], envp, infile_fd, my_pipe[PIPE_WRITE]);
+	else
+		close(my_pipe[PIPE_WRITE]);
 	execute_cmd(argv[3], envp, my_pipe[PIPE_READ], outfile_fd);
-	system("leaks pipex");
 	return (0);
 }
