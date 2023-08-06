@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 00:50:35 by skawanis          #+#    #+#             */
-/*   Updated: 2023/08/04 19:28:28 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/08/06 16:33:12 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,13 @@ char	*search_binary(char **path, char *cmd_name)
 		path[i] = NULL;
 		if (access(cmd_path, X_OK) == 0)
 		{
-			while (path[++i])
-				free(path[i]);
-			free(path);
-			free(new_cmd);
-			return (ft_strdup(cmd_path));
+			free_all((void *)path, i + 1);
+			ft_free2(path, new_cmd);
+			return (cmd_path);
 		}
+		free(cmd_path);
 		i++;
 	}
-	free(path);
-	free(new_cmd);
+	ft_free2(path, new_cmd);
 	return (cmd_name);
 }

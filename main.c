@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 21:25:46 by skawanis          #+#    #+#             */
-/*   Updated: 2023/08/04 19:34:56 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/08/06 16:32:57 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	execute_cmd(char *cmd, char **envp, int in_fd, int out_fd)
 	{
 		wait(NULL);
 		free(binary_path);
-		free(new_cmd);
+		free_all((void **)new_cmd, 0);
 	}
 	if (pid == 0)
 	{
@@ -53,4 +53,6 @@ int	main(int argc, char **argv, char **envp)
 	handle_arguments(argc, argv, &infile_fd, &outfile_fd);
 	execute_cmd(argv[2], envp, infile_fd, my_pipe[PIPE_WRITE]);
 	execute_cmd(argv[3], envp, my_pipe[PIPE_READ], outfile_fd);
+	system("leaks pipex");
+	return (0);
 }

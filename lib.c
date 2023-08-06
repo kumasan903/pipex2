@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 20:32:03 by skawanis          #+#    #+#             */
-/*   Updated: 2023/07/31 21:29:33 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/08/06 16:33:25 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,27 @@ char	*ft_strndup(const char *s1, size_t size)
 		return (NULL);
 	ft_memcpy(dest, s1, size);
 	return (dest);
+}
+
+void	ft_free2(void *ptr1, void *ptr2)
+{
+	free(ptr1);
+	free(ptr2);
+}
+
+void	free_all(void **ptr, size_t index)
+{
+	size_t	i;
+
+	i = index;
+	while (ptr[i])
+	{
+		free(ptr[i]);
+		ptr[i] = NULL;
+		i++;
+	}
+	if (index == 0)
+		free(ptr);
 }
 
 //int main(void)
