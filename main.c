@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 21:25:46 by skawanis          #+#    #+#             */
-/*   Updated: 2023/08/13 19:24:47 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/09/14 01:08:50 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ pid_t	execute_cmd(char *cmd, char **envp, int in_fd, int out_fd)
 	new_cmd = ft_split(cmd, ' ');
 	path = get_path(envp);
 	binary_path = search_binary(path, new_cmd[0]);
+	if (binary_path == NULL)
+	{
+		free_all((void **)new_cmd, 0);
+	}
 	dup2(in_fd, 0);
 	close(in_fd);
 	dup2(out_fd, 1);

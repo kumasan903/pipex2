@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 00:50:35 by skawanis          #+#    #+#             */
-/*   Updated: 2023/08/06 21:19:45 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/09/14 01:10:23 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,5 @@ char	*search_binary(char **path, char *cmd_name)
 		return (ft_strdup(cmd_name));
 	ft_putstr_fd("pipex: no such file or directory: ", 2);
 	ft_putendl_fd(cmd_name, 2);
-	exit(1);
+	return (NULL);
 }
