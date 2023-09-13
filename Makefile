@@ -29,6 +29,6 @@ fclean_local	: clean_local
 re		:	fclean_local all
 
 test	: $(NAME)
-	./pipex
+	valgrind --leak-check=full --show-leak-kinds=all ./pipex infile hoge cat /dev/stdout
 
 .PHONY	:	clean fclean clean_local fclean_local re all test
