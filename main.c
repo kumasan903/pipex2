@@ -6,13 +6,21 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 21:25:46 by skawanis          #+#    #+#             */
-/*   Updated: 2023/09/14 01:08:50 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/09/14 01:21:45 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #define PIPE_READ 0
 #define PIPE_WRITE 1
+
+static void	dup_wrapper(int in_fd, int out_fd)
+{
+	dup2(in_fd, 0);
+	close(in_fd);
+	dup2(out_fd, 1);
+	close(out_fd);
+}
 
 pid_t	execute_cmd(char *cmd, char **envp, int in_fd, int out_fd)
 {
@@ -25,19 +33,14 @@ pid_t	execute_cmd(char *cmd, char **envp, int in_fd, int out_fd)
 	path = get_path(envp);
 	binary_path = search_binary(path, new_cmd[0]);
 	if (binary_path == NULL)
-	{
 		free_all((void **)new_cmd, 0);
-	}
-	dup2(in_fd, 0);
-	close(in_fd);
-	dup2(out_fd, 1);
-	close(out_fd);
+	dup_wrapper(in_fd, out_fd);
 	pid = fork();
 	if (pid > 0)
 	{
 		free(binary_path);
 		free_all((void **)new_cmd, 0);
-		return(pid);
+		return (pid);
 	}
 	if (pid == 0)
 	{
@@ -50,9 +53,9 @@ pid_t	execute_cmd(char *cmd, char **envp, int in_fd, int out_fd)
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	infile_fd;
-	int	outfile_fd;
-	int	my_pipe[2];
+	int		infile_fd;
+	int		outfile_fd;
+	int		my_pipe[2];
 	pid_t	pid[2];
 
 	if (pipe(my_pipe))

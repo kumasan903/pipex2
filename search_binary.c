@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 00:50:35 by skawanis          #+#    #+#             */
-/*   Updated: 2023/09/14 01:10:23 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/09/14 01:18:22 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ char	**get_path(char **envp)
 		i++;
 	}
 	return (path);
+}
+
+static void	ft_putendl2_fd(char *str1, char *str2, int fd)
+{
+	ft_putstr_fd(str1, fd);
+	ft_putendl_fd(str2, fd);
 }
 
 char	*search_binary(char **path, char *cmd_name)
@@ -54,7 +60,6 @@ char	*search_binary(char **path, char *cmd_name)
 	ft_free2(path, new_cmd);
 	if (access(cmd_name, X_OK) == 0)
 		return (ft_strdup(cmd_name));
-	ft_putstr_fd("pipex: no such file or directory: ", 2);
-	ft_putendl_fd(cmd_name, 2);
+	ft_putendl2_fd("pipex: no such file or directory: ", cmd_name, 2);
 	return (NULL);
 }
