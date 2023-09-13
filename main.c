@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 21:25:46 by skawanis          #+#    #+#             */
-/*   Updated: 2023/09/14 01:21:45 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/09/14 01:32:59 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ pid_t	execute_cmd(char *cmd, char **envp, int in_fd, int out_fd)
 	path = get_path(envp);
 	binary_path = search_binary(path, new_cmd[0]);
 	if (binary_path == NULL)
+	{
 		free_all((void **)new_cmd, 0);
+		return (0);
+	}
 	dup_wrapper(in_fd, out_fd);
 	pid = fork();
 	if (pid > 0)
@@ -42,13 +45,9 @@ pid_t	execute_cmd(char *cmd, char **envp, int in_fd, int out_fd)
 		free_all((void **)new_cmd, 0);
 		return (pid);
 	}
-	if (pid == 0)
-	{
-		if (execve(binary_path, new_cmd, envp))
-			perror("pipex");
-		return (0);
-	}
-	return (1);
+	if (execve(binary_path, new_cmd, envp))
+		perror("pipex");
+	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
