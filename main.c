@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 21:25:46 by skawanis          #+#    #+#             */
-/*   Updated: 2023/09/14 01:32:59 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/09/16 20:49:50 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ int	main(int argc, char **argv, char **envp)
 	handle_arguments(argc, argv, &infile_fd, &outfile_fd);
 	if (infile_fd >= 0)
 		pid[0] = execute_cmd(argv[2], envp, infile_fd, my_pipe[PIPE_WRITE]);
-	else
-		close(my_pipe[PIPE_WRITE]);
+	close(my_pipe[PIPE_WRITE]);
 	pid[1] = execute_cmd(argv[3], envp, my_pipe[PIPE_READ], outfile_fd);
 	waitpid(pid[0], NULL, WNOHANG);
 	waitpid(pid[1], NULL, WNOHANG);
